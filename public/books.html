@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог книг - Book Library API</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Библиотека книг</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/books.html">Каталог книг</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Каталог книг</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" id="search-input" class="form-control" placeholder="Поиск книг...">
+                    <button class="btn btn-primary" id="search-button" type="button">Поиск</button>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn btn-success" id="add-book-btn" data-bs-toggle="modal" data-bs-target="#addBookModal">Добавить книгу</button>
+            </div>
+        </div>
+
+        <div class="alert alert-info d-none" id="message-box"></div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Автор</th>
+                        <th>ISBN</th>
+                        <th>Год</th>
+                        <th>Издательство</th>
+                        <th>Доступность</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="books-table">
+                    <!-- Данные будут загружены через JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div>
+                <span>Страница: <span id="current-page">1</span></span>
+            </div>
+            <div>
+                <button class="btn btn-outline-primary me-2" id="prev-page-btn">Предыдущая</button>
+                <button class="btn btn-outline-primary" id="next-page-btn">Следующая</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления книги -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавить новую книгу</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-book-form">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="author" class="form-label">Автор</label>
+                            <input type="text" class="form-control" id="author" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="isbn" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание</label>
+                            <textarea class="form-control" id="description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Год издания</label>
+                            <input type="number" class="form-control" id="year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Издательство</label>
+                            <input type="text" class="form-control" id="publisher">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" id="save-book-btn">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для редактирования книги -->
+    <div class="modal fade" id="editBookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать книгу</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-book-form">
+                        <input type="hidden" id="edit-book-id">
+                        <div class="mb-3">
+                            <label for="edit-title" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="edit-title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-author" class="form-label">Автор</label>
+                            <input type="text" class="form-control" id="edit-author" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-isbn" class="form-label">ISBN</label>
+                            <input type="text" class="form-control" id="edit-isbn" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label">Описание</label>
+                            <textarea class="form-control" id="edit-description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-year" class="form-label">Год издания</label>
+                            <input type="number" class="form-control" id="edit-year" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-publisher" class="form-label">Издательство</label>
+                            <input type="text" class="form-control" id="edit-publisher">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" id="update-book-btn">Обновить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3 mt-5">
+        <div class="container">
+            <p class="text-center mb-0">Book Library API &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html> 

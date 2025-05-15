@@ -1,0 +1,54 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 60px;
+}
+
+.jumbotron {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: .3rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.book-available {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.book-unavailable {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.action-buttons button {
+    margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .action-buttons button {
+        margin-bottom: 5px;
+        margin-right: 0;
+    }
+}
+
+#message-box {
+    transition: opacity 0.5s;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+} 

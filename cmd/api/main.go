@@ -46,7 +46,13 @@ func main() {
 	// Инициализация роутера Gin
 	router := gin.Default()
 
-	// Регистрация маршрутов
+	// Обслуживание статических файлов
+	router.Static("/css", "./public/css")
+	router.Static("/js", "./public/js")
+	router.StaticFile("/", "./public/index.html")
+	router.StaticFile("/books.html", "./public/books.html")
+
+	// Регистрация API маршрутов
 	bookHandler.RegisterRoutes(router)
 
 	// Настройка сервера
@@ -57,6 +63,7 @@ func main() {
 
 	// Запуск сервера в горутине
 	go func() {
+		log.Printf("Сервер запущен на http://localhost:%s", cfg.Server.Port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Ошибка запуска сервера: %s\n", err)
 		}
