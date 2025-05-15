@@ -10,23 +10,42 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/krawwwwy/book-library-api/internal/api"
+	"github.com/krawwwwy/book-library-api/internal/config"
+	"github.com/krawwwwy/book-library-api/internal/repository"
+	"github.com/krawwwwy/book-library-api/internal/service"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
+	// Загрузка конфигурации
+	cfg := config.GetConfig()
+
+	// Подключение к базе данных
+	db, err := gorm.Open(postgres.Open(cfg.DB.GetDSN()), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Ошибка подключения к базе данных: %v", err)
+	}
+
+	// Инициализация репозитория
+	bookRepo := repository.NewBookRepository(db)
+
+	// Инициализация сервиса
+	bookService := service.NewBookService(bookRepo)
+
+	// Инициализация обработчика
+	bookHandler := api.NewBookHandler(bookService)
+
 	// Инициализация роутера Gin
 	router := gin.Default()
 
-	// Настройка базовых маршрутов
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "OK",
-			"time":   time.Now(),
-		})
-	})
+	// Регистрация маршрутов
+	bookHandler.RegisterRoutes(router)
 
 	// Настройка сервера
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + cfg.Server.Port,
 		Handler: router,
 	}
 
