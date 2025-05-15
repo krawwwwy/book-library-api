@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/krawwwwy/book-library-api/internal/api"
 	"github.com/krawwwwy/book-library-api/internal/config"
+	"github.com/krawwwwy/book-library-api/internal/model"
 	"github.com/krawwwwy/book-library-api/internal/repository"
 	"github.com/krawwwwy/book-library-api/internal/service"
 	"gorm.io/driver/postgres"
@@ -26,6 +27,11 @@ func main() {
 	db, err := gorm.Open(postgres.Open(cfg.DB.GetDSN()), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Ошибка подключения к базе данных: %v", err)
+	}
+
+	// Автоматическая миграция моделей
+	if err := db.AutoMigrate(&model.Book{}); err != nil {
+		log.Fatalf("Ошибка миграции базы данных: %v", err)
 	}
 
 	// Инициализация репозитория
