@@ -1,8 +1,8 @@
-# Book Library API
+# Библиотека книг API
 
-A modern Go-based REST API for managing a personal book library. This project serves as a demonstration of contemporary backend development practices and technologies.
+Современный REST API на Go для управления персональной библиотекой книг. Этот проект демонстрирует современные практики и технологии backend-разработки.
 
-## 🚀 Technologies
+## 🚀 Технологии
 
 - Go 1.22+
 - Gin Web Framework
@@ -10,72 +10,72 @@ A modern Go-based REST API for managing a personal book library. This project se
 - PostgreSQL
 - Docker & Docker Compose
 - Swagger/OpenAPI
-- JWT Authentication
-- Unit & Integration Testing
+- JWT Аутентификация
+- Модульное и интеграционное тестирование
 
-## 📁 Project Structure
+## 📁 Структура проекта
 
 ```
 .
 ├── cmd/
-│   └── api/            # Application entrypoint
+│   └── api/            # Точка входа приложения
 ├── internal/
-│   ├── api/           # API handlers
-│   ├── config/        # Configuration
-│   ├── middleware/    # HTTP middleware
-│   ├── model/         # Domain models
-│   ├── repository/    # Data access layer
-│   └── service/       # Business logic
-├── pkg/               # Public packages
-├── docs/             # Documentation
-└── scripts/          # Helper scripts
+│   ├── api/           # Обработчики API
+│   ├── config/        # Конфигурация
+│   ├── middleware/    # HTTP промежуточное ПО
+│   ├── model/         # Модели данных
+│   ├── repository/    # Слой доступа к данным
+│   └── service/       # Бизнес-логика
+├── pkg/               # Публичные пакеты
+├── docs/             # Документация
+└── scripts/          # Вспомогательные скрипты
 ```
 
-## 🛠️ Setup and Running
+## 🛠️ Установка и запуск
 
-### Prerequisites
+### Предварительные требования
 
-- Go 1.22 or higher
-- Docker and Docker Compose
-- Make (optional)
+- Go 1.22 или выше
+- Docker и Docker Compose
+- Make (опционально)
 
-### Local Development
+### Локальная разработка
 
-1. Clone the repository:
+1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/yourusername/book-library-api
+git clone https://github.com/krawwwwy/book-library-api
 cd book-library-api
 ```
 
-2. Start the database:
+2. Запустить базу данных:
 ```bash
 docker-compose up -d postgres
 ```
 
-3. Run the application:
+3. Запустить приложение:
 ```bash
 go run cmd/api/main.go
 ```
 
-### Using Docker
+### Использование Docker
 
 ```bash
 docker-compose up --build
 ```
 
-## 📝 API Documentation
+## 📝 Документация API
 
-Once the application is running, you can access the Swagger documentation at:
+После запуска приложения документация Swagger доступна по адресу:
 ```
 http://localhost:8080/swagger/index.html
 ```
 
-## 🧪 Running Tests
+## 🧪 Запуск тестов
 
 ```bash
 go test ./...
 ```
 
-## 📜 License
+## 📜 Лицензия
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+Этот проект распространяется под лицензией MIT - подробности см. в файле LICENSE. 
